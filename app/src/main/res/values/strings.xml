@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">BharatJodo</string>
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="heading_one">Stay Connected with Bharat</string>
+    <string name="heading_two">Uninterrupted Conversations</string>
+    <string name="heading_three">Privacy First</string>
+    <string name="heading_four">Feel Closer</string>
+    <string name="heading_five">Cultural Harmony</string>
+
+    <string name="desc_one">Bharat Jodo connects hearts across the nation, enabling seamless communication and fostering relationships, just like the Indian tradition of togetherness.</string>
+    <string name="desc_two">Experience uninterrupted conversations with Bharat Jodo, providing a reliable platform for all your video calls, echoing the reliability of Indian bonds.</string>
+    <string name="desc_three">Your privacy is our priority. Bharat Jodo ensures your conversations are secure with advanced encryption, reflecting our commitment to safety.</string>
+    <string name="desc_four">With Bharat Jodo, distance is just a word. Feel closer to your loved ones and colleagues with high-definition video calls, embodying the spirit of Indian unity.</string>
+    <string name="desc_five">Bharat Jodo promotes cultural harmony by connecting people from diverse backgrounds, reflecting the rich tapestry of Indian culture.</string>
+
 </resources>
