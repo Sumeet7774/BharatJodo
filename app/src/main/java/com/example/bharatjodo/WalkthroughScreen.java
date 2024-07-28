@@ -37,6 +37,8 @@ public class WalkthroughScreen extends AppCompatActivity {
         mSLideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
         mDotLayout = (LinearLayout) findViewById(R.id.indicator_layout);
 
+        backbtn.setVisibility(View.GONE);
+
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,9 +114,9 @@ public class WalkthroughScreen extends AppCompatActivity {
 
             setUpindicator(position);
 
-            if (position == 0)
+            if (position <= 0)
             {
-                backbtn.setVisibility(View.INVISIBLE);
+                backbtn.setVisibility(View.GONE);
                 nextbtn.setVisibility(View.VISIBLE);
                 skipbtn.setVisibility(View.VISIBLE);
                 finishbtn.setVisibility(View.GONE);

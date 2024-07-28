@@ -44,4 +44,5 @@ dependencies {
     androidTestImplementation libs.espresso.core
 
     implementation libs.sdp.android
+    implementation libs.lottie.v640
 }
