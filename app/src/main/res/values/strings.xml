@@ -4,7 +4,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="indexPage_desc">Bharat Jodo is a revolutionary video calling app designed to connect you with your friends and family across the country. Enjoy high-quality video calls, seamless connections, and an intuitive user experience. Lets bring everyone closer, one call at a time.</string>
+    <string name="signup">SIGN UP</string>
+    <string name="login">LOGIN</string>
 
     <string name="heading_one">Stay Connected with Bharat</string>
     <string name="heading_two">Uninterrupted Conversations</string>
