@@ -46,5 +46,4 @@ dependencies {
     implementation libs.sdp.android
     implementation libs.lottie.v640
     implementation libs.play.services.auth
-    implementation libs.play.services.fonts
 }
