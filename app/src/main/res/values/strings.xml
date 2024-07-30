@@ -12,8 +12,13 @@
     <string name="heading_three">Privacy First</string>
     <string name="heading_four">Feel Closer</string>
     <string name="heading_five">Cultural Harmony</string>
+
     <string name="index_heading1">HELLO THERE,</string>
     <string name="index_heading2">WELCOME BACK</string>
+
+    <string name="signup_heading1">Namaste,</string>
+    <string name="signup_heading2">Please Sign</string>
+    <string name="signup_heading3">Up.</string>
 
     <string name="desc_one">Bharat Jodo connects hearts across the nation, enabling seamless communication and fostering relationships, just like the Indian tradition of togetherness.</string>
     <string name="desc_two">Experience uninterrupted conversations with Bharat Jodo, providing a reliable platform for all your video calls, echoing the reliability of Indian bonds.</string>
