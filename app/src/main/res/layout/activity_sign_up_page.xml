@@ -2,81 +2,88 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/signupPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     tools:context=".SignUpPage">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <ImageView
-            android:id="@+id/signuppage_topbackground"
-            android:src="@drawable/top_background"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"/>
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/back_button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:padding="@dimen/_5sdp">
+            <ImageView
+                android:id="@+id/signuppage_topbackground"
+                android:src="@drawable/top_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
 
-            <Button
-                android:id="@+id/back_button"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/ic_arrow_back_grey"
-                android:tint="#000000" />
+            <LinearLayout
+                android:id="@+id/back_button_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp">
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/back_button"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/ic_arrow_back_grey"
+                    android:tint="#000000" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/signuppage_top_heading1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/signup_heading1"
-            android:textColor="#EEEEEE"
-            android:textSize="@dimen/_18sdp"
-            android:layout_below="@id/back_button_container"/>
+            <TextView
+                android:id="@+id/signuppage_top_heading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/back_button_container"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/signup_heading1"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_10sdp"/>
 
-        <TextView
-            android:id="@+id/signuppage_top_heading2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/signuppage_top_heading1"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/signup_heading2"
-            android:textColor="#EEEEEE"
-            android:textSize="@dimen/_18sdp"/>
+            <TextView
+                android:id="@+id/signuppage_top_heading2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/signuppage_top_heading1"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/signup_heading2"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_17sdp"/>
 
-        <TextView
-            android:id="@+id/signuppage_top_heading3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/signuppage_top_heading2"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/signup_heading3"
-            android:textColor="#EEEEEE"
-            android:textSize="@dimen/_18sdp"/>
+            <TextView
+                android:id="@+id/signuppage_top_heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/signuppage_top_heading2"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/signup_heading3"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_17sdp"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
-            android:layout_below="@+id/signuppage_top_heading3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -178,8 +185,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <EditText
+                android:id="@+id/phonenumber_edittext"
+                android:hint="Enter your phone number"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@id/phonenumber_textview"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/button_1"
+                android:drawableStart="@drawable/mobile_no_icon"
+                android:drawablePadding="@dimen/_9sdp"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_7sdp"
+                android:textSize="@dimen/_14sdp" />
 
+            <Button
+                android:id="@+id/verify_button_signuppage"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/verifyotp"
+                android:background="@drawable/rounded_button"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phonenumber_edittext"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_centerHorizontal="true"/>
 
+            <Button
+                android:id="@+id/signup_button_signuppage"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/signup"
+                android:background="@drawable/rounded_button"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/verify_button_signuppage"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_centerHorizontal="true"/>
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

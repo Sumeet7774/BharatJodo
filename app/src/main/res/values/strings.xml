@@ -6,6 +6,7 @@
 
     <string name="signup">SIGN UP</string>
     <string name="login">LOGIN</string>
+    <string name="verifyotp">VERIFY</string>
 
     <string name="heading_one">Stay Connected with Bharat</string>
     <string name="heading_two">Uninterrupted Conversations</string>
@@ -18,7 +19,10 @@
 
     <string name="signup_heading1">Namaste,</string>
     <string name="signup_heading2">Please Sign</string>
-    <string name="signup_heading3">Up.</string>
+    <string name="signup_heading3">Up</string>
+
+    <string name="login_heading1">Namaste,</string>
+    <string name="login_heading2">Please Login</string>
 
     <string name="desc_one">Bharat Jodo connects hearts across the nation, enabling seamless communication and fostering relationships, just like the Indian tradition of togetherness.</string>
     <string name="desc_two">Experience uninterrupted conversations with Bharat Jodo, providing a reliable platform for all your video calls, echoing the reliability of Indian bonds.</string>
@@ -26,6 +30,6 @@
     <string name="desc_four">With Bharat Jodo, distance is just a word. Feel closer to your loved ones and colleagues with high-definition video calls, embodying the spirit of Indian unity.</string>
     <string name="desc_five">Bharat Jodo promotes cultural harmony by connecting people from diverse backgrounds, reflecting the rich tapestry of Indian culture.</string>
 
-    <string name="greetings">Namaste, Welcome to Bharat Jodo App</string>
+    <string name="greetings">Namaste, Welcome to Bharat Jodo</string>
 
 </resources>
