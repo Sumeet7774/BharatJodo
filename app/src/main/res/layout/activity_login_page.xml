@@ -1,10 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/signupPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginPage">
+    android:background="#EEEEEE"
+    tools:context=".SignUpPage">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/loginppage_topbackground"
+                android:src="@drawable/top_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
+
+            <LinearLayout
+                android:id="@+id/backbutton_loginpage_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <Button
+                    android:id="@+id/back_button_loginpage"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:background="@drawable/ic_arrow_back_grey"
+                    android:tint="#000000" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/loginpage_top_heading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/backbutton_loginpage_container"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/login_heading1"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"/>
+
+            <TextView
+                android:id="@+id/loginpage_top_heading2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/loginpage_top_heading1"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/login_heading2"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_20sdp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/username_login_textview"
+                android:text="Username"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_semibold"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/username_login_edittext"
+                android:hint="Enter your username"
+                android:inputType="textPersonName"
+                android:maxLength="12"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@id/username_login_textview"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/button_1"
+                android:drawableStart="@drawable/person_icon"
+                android:drawablePadding="@dimen/_9sdp"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_7sdp"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/phonenumber_login_textview"
+                android:text="Phone Number"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_semibold"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_below="@+id/username_login_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/phonenumber_login_edittext"
+                android:hint="Enter your phone number"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@id/phonenumber_login_textview"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/button_1"
+                android:drawableStart="@drawable/mobile_no_icon"
+                android:drawablePadding="@dimen/_9sdp"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_7sdp"
+                android:textSize="@dimen/_14sdp" />
+
+            <Button
+                android:id="@+id/login_button_loginpage"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/login"
+                android:background="@drawable/rounded_button"
+                android:textColor="#EEEEEE"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phonenumber_login_edittext"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_65sdp"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

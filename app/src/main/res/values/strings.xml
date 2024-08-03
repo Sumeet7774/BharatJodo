@@ -6,7 +6,13 @@
 
     <string name="signup">SIGN UP</string>
     <string name="login">LOGIN</string>
-    <string name="verifyotp">VERIFY</string>
+
+    <string name="otp_verification">OTP Verification</string>
+    <string name="please_enter_the_otp_sent_to">Please enter the OTP sent to</string>
+    <string name="verify">Verify</string>
+    <string name="mobile_number_text">+91 9999999999</string>
+    <string name="didn_t_receive_the_otp">Didn\'t receive the OTP?</string>
+    <string name="resend_otp">Resend OTP</string>
 
     <string name="heading_one">Stay Connected with Bharat</string>
     <string name="heading_two">Uninterrupted Conversations</string>
@@ -31,5 +37,7 @@
     <string name="desc_five">Bharat Jodo promotes cultural harmony by connecting people from diverse backgrounds, reflecting the rich tapestry of Indian culture.</string>
 
     <string name="greetings">Namaste, Welcome to Bharat Jodo</string>
+    <string name="success">Success</string>
+    <string name="success_dialogbox_text">Registration Successfull!</string>
 
 </resources>
