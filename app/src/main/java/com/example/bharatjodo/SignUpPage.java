@@ -8,6 +8,7 @@ import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,8 +21,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.bharatjodo.IndexPage;
 import com.example.bharatjodo.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import www.sanju.motiontoast.MotionToast;
 import www.sanju.motiontoast.MotionToastStyle;
@@ -168,7 +176,7 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 else
                 {
-                    // Implement signup logic here
+                    registerUser(username_txt,email_txt,password_txt,phonenumber_txt);
                 }
             }
         });
@@ -226,5 +234,51 @@ public class SignUpPage extends AppCompatActivity {
         isPasswordVisible = !isPasswordVisible;
 
         passwordEditText.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_light));
+    }
+
+    public void registerUser(final String username,final String email,final String password, final String phoneNumber)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.register_url, response -> {
+
+            if (response.contains("registration successfull"))
+            {
+                //showRegistrationSuccessDialog();
+            }
+            else if(response.contains("User data already exists"))
+            {
+                //Toast.makeText(SignUpPage.this, "User Already Exists", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                //showUnsuccesfulRegistrationDialog();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError)
+            {
+                MotionToast.Companion.createColorToast(SignUpPage.this,
+                        "Internet Error", "Please check your internet connection",
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(SignUpPage.this, R.font.montserrat_semibold));
+
+                Log.d("VOLLEY", volleyError.getMessage());
+                Intent intent = new Intent(SignUpPage.this, SignUpPage.class);
+                startActivity(intent);
+            }
+        }) {
+            protected Map<String,String> getParams()
+            {
+                Map<String,String> params = new HashMap<>();
+                params.put("username", username);
+                params.put("email_id", email);
+                params.put("password", password);
+                params.put("phone_number", phoneNumber);
+
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 }

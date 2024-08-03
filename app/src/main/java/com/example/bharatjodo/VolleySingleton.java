@@ -35,7 +35,7 @@ public class VolleySingleton {
         return mRequestQueue;
     }
 
-    public <T> void addRequestQueue(Request<T> request)
+    public <T> void addToRequestQueue(Request<T> request)
     {
         getRequestQueue().add(request);
     }
