@@ -190,7 +190,7 @@
 
             <EditText
                 android:id="@+id/phonenumber_edittext"
-                android:hint="Enter your phone number"
+                android:hint="@string/enter_your_phone_number_signuppage"
                 android:inputType="number"
                 android:fontFamily="@font/poppins_light"
                 android:layout_width="match_parent"
