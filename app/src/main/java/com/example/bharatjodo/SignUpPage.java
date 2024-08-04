@@ -1,5 +1,6 @@
 package com.example.bharatjodo;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -236,26 +237,74 @@ public class SignUpPage extends AppCompatActivity {
         passwordEditText.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_light));
     }
 
+    private void showRegistrationSuccessDialog()
+    {
+        Dialog successful_registration_dialogBox = new Dialog(SignUpPage.this);
+        successful_registration_dialogBox.setContentView(R.layout.custom_success_dialogbox);
+        Button dialogBox_ok_button = successful_registration_dialogBox.findViewById(R.id.okbutton_successDialogBox);
+        dialogBox_ok_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                successful_registration_dialogBox.dismiss();
+                Intent intent = new Intent(SignUpPage.this, IndexPage.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
+        });
+        successful_registration_dialogBox.show();
+
+        MotionToast.Companion.createColorToast(SignUpPage.this,
+                "Success", "Press OK to redirect to the Index Page for login.",
+                MotionToastStyle.SUCCESS,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(SignUpPage.this, R.font.montserrat_semibold));
+    }
+
     public void registerUser(final String username,final String email,final String password, final String phoneNumber)
     {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.register_url, response -> {
 
+            Log.d("REQUEST", "Username: " + username);
+            Log.d("REQUEST", "Email: " + email);
+            Log.d("REQUEST", "Password: " + password);
+            Log.d("REQUEST", "Phone Number: " + phoneNumber);
+
             if (response.contains("registration successfull"))
             {
-                //showRegistrationSuccessDialog();
+                showRegistrationSuccessDialog();
             }
             else if(response.contains("User data already exists"))
             {
-                //Toast.makeText(SignUpPage.this, "User Already Exists", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createColorToast(SignUpPage.this,
+                        "Error", "User with those credentials already Exists!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(SignUpPage.this, R.font.montserrat_semibold));
             }
             else
             {
-                //showUnsuccesfulRegistrationDialog();
+                MotionToast.Companion.createColorToast(SignUpPage.this,
+                        "Registration Failed", "Registration Failed!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(SignUpPage.this, R.font.montserrat_semibold));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError)
             {
+                String errorMessage = volleyError.getMessage();
+                if (errorMessage == null)
+                {
+                    errorMessage = "Unknown error occurred";
+                }
+
+
                 MotionToast.Companion.createColorToast(SignUpPage.this,
                         "Internet Error", "Please check your internet connection",
                         MotionToastStyle.INFO,
@@ -263,9 +312,11 @@ public class SignUpPage extends AppCompatActivity {
                         MotionToast.LONG_DURATION,
                         ResourcesCompat.getFont(SignUpPage.this, R.font.montserrat_semibold));
 
+                Log.d("VOLLEY", errorMessage);
+
                 Log.d("VOLLEY", volleyError.getMessage());
-                Intent intent = new Intent(SignUpPage.this, SignUpPage.class);
-                startActivity(intent);
+                //Intent intent = new Intent(SignUpPage.this, SignUpPage.class);
+                //startActivity(intent);
             }
         }) {
             protected Map<String,String> getParams()

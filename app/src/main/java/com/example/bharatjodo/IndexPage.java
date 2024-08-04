@@ -5,21 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class IndexPage extends AppCompatActivity {
 
     Button signup_btn, login_btn;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_index_page);
 
         signup_btn = findViewById(R.id.signup_button);
@@ -44,7 +38,5 @@ public class IndexPage extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 }

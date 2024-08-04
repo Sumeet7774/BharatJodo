@@ -40,5 +40,6 @@
     <string name="success">Success</string>
     <string name="success_dialogbox_text">Registration Successfull!</string>
     <string name="enter_your_phone_number_signuppage">Enter your phone number</string>
+    <string name="success_title_dialogbox">Success!</string>
 
 </resources>
