@@ -315,8 +315,6 @@ public class SignUpPage extends AppCompatActivity {
                 Log.d("VOLLEY", errorMessage);
 
                 Log.d("VOLLEY", volleyError.getMessage());
-                //Intent intent = new Intent(SignUpPage.this, SignUpPage.class);
-                //startActivity(intent);
             }
         }) {
             protected Map<String,String> getParams()
