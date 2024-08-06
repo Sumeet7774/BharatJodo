@@ -304,7 +304,6 @@ public class SignUpPage extends AppCompatActivity {
                     errorMessage = "Unknown error occurred";
                 }
 
-
                 MotionToast.Companion.createColorToast(SignUpPage.this,
                         "Internet Error", "Please check your internet connection",
                         MotionToastStyle.INFO,

@@ -51,5 +51,6 @@ dependencies {
     implementation libs.motiontoast
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    implementation libs.core.ktx
     implementation libs.volley
 }

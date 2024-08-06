@@ -7,6 +7,7 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,14 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import www.sanju.motiontoast.MotionToast;
 import www.sanju.motiontoast.MotionToastStyle;
@@ -56,7 +65,6 @@ public class LoginPage extends AppCompatActivity {
                 return null;
             }
         };
-
 
         username_editText.setFilters(new InputFilter[]{noSpacesFilter, new InputFilter.LengthFilter(12)});
         phonenumber_editText.setFilters(new InputFilter[]{noSpacesFilter});
@@ -132,7 +140,7 @@ public class LoginPage extends AppCompatActivity {
                 }
                 else
                 {
-
+                    checkUser(username_txt,phonenumber_txt);
                 }
             }
         });
@@ -144,5 +152,78 @@ public class LoginPage extends AppCompatActivity {
 
     private boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.startsWith(PHONE_PREFIX) && phoneNumber.length() == (PHONE_PREFIX.length() + 10);
+    }
+
+    public void checkUser(final String username, final String phoneNumber)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.login_url, response -> {
+
+            Log.d("Request", "Username: " + username);
+            Log.d("Request", "Phone Number: " + phoneNumber);
+
+            if(response.contains("user found"))
+            {
+                MotionToast.Companion.createColorToast(LoginPage.this,
+                        "OTP will be sent", "An OTP will be sent to your number.",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(LoginPage.this, R.font.montserrat_semibold));
+
+                Intent intent = new Intent(LoginPage.this, OTP_verification.class);
+                intent.putExtra("PHONE_NUMBER", phoneNumber);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
+            else if(response.contains("user not found"))
+            {
+                MotionToast.Companion.createColorToast(LoginPage.this,
+                        "Error", "No such user found with those credentials",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(LoginPage.this, R.font.montserrat_semibold));
+            }
+            else
+            {
+                MotionToast.Companion.createColorToast(LoginPage.this,
+                        "Error", "An unexpected error occurred. Please try again.",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(LoginPage.this, R.font.montserrat_semibold));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMessage = error.getMessage();
+                if (errorMessage == null)
+                {
+                    errorMessage = "Unknown error occurred";
+                }
+
+                MotionToast.Companion.createColorToast(LoginPage.this,
+                        "Internet Error", "Please check your internet connection",
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(LoginPage.this, R.font.montserrat_semibold));
+
+                Log.d("VOLLEY", errorMessage);
+                Log.d("VOLLEY", error.getMessage());
+            }
+        }) {
+            protected Map<String,String> getParams()
+            {
+                Map<String,String> params = new HashMap<>();
+                params.put("username", username);
+                params.put("phone_number", phoneNumber);
+
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+
     }
 }

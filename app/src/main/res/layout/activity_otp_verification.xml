@@ -207,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/didn_t_receive_the_otp"
                 android:fontFamily="@font/poppins_medium"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
                 android:id="@+id/resend_otp_textview"
@@ -217,7 +217,7 @@
                 android:layout_marginStart="@dimen/_3sdp"
                 android:text="@string/resend_otp"
                 android:textColor="#3640FB"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_10sdp"
                 android:textStyle="bold" />
 
         </LinearLayout>
