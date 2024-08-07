@@ -102,7 +102,6 @@ public class OTP_verification extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(OTP_verification.this, IndexPage.class);
                 startActivity(intent);
-                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
             }
