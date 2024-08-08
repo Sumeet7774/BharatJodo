@@ -227,10 +227,26 @@ public class OTP_verification extends AppCompatActivity {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
             mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    MotionToast.Companion.createColorToast(OTP_verification.this,
+                            "OTP Verified", "OTP verified successfully.",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+
                     Intent intent = new Intent(OTP_verification.this, IndexPage.class);
                     startActivity(intent);
+                    MotionToast.Companion.createColorToast(OTP_verification.this,
+                            "Success", "Login successfully.",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
-                } else {
+                }
+                else
+                {
                     MotionToast.Companion.createColorToast(OTP_verification.this,
                             "Error", "Verification failed. Try again.",
                             MotionToastStyle.ERROR,
@@ -241,7 +257,9 @@ public class OTP_verification extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 verifyButton.setEnabled(true);
             });
-        } else {
+        }
+        else
+        {
             MotionToast.Companion.createColorToast(OTP_verification.this,
                     "Error", "Verification Id is null",
                     MotionToastStyle.ERROR,
