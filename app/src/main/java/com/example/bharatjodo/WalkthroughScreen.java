@@ -3,15 +3,17 @@ package com.example.bharatjodo;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -176,15 +178,41 @@ public class WalkthroughScreen extends AppCompatActivity {
                 if (sendSMS && readSMS && callPhone && camera) {
                     proceedToNextActivity();
                 } else {
-                    MotionToast.Companion.createColorToast(WalkthroughScreen.this,
-                            "Info", "All permissions are required",
-                            MotionToastStyle.INFO,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.LONG_DURATION,
-                            ResourcesCompat.getFont(WalkthroughScreen.this, R.font.montserrat_semibold));
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS) ||
+                            !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS) ||
+                            !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE) ||
+                            !ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                        showSettingsDialog();
+                    } else {
+                        MotionToast.Companion.createColorToast(WalkthroughScreen.this,
+                                "Permissions", "All permissions are required",
+                                MotionToastStyle.INFO,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(WalkthroughScreen.this, R.font.montserrat_semibold));
+                    }
                 }
             }
         }
+    }
+
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(WalkthroughScreen.this);
+        builder.setTitle("Need Permissions");
+        builder.setMessage("This app needs permissions to use certain features. You can grant them in app settings.");
+        builder.setPositiveButton("Go to Settings", (dialog, which) -> {
+            dialog.cancel();
+            openSettings();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private void proceedToNextActivity() {
