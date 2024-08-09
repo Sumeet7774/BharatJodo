@@ -2,8 +2,8 @@ package com.example.bharatjodo;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -12,17 +12,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import www.sanju.motiontoast.MotionToast;
@@ -30,6 +36,7 @@ import www.sanju.motiontoast.MotionToastStyle;
 
 public class OTP_verification extends AppCompatActivity {
 
+    SessionManagement sessionManagement;
     private EditText otpEditText1, otpEditText2, otpEditText3, otpEditText4, otpEditText5, otpEditText6;
     private Button verifyButton, backButton_otpverificationpage;
     private ProgressBar progressBar;
@@ -38,10 +45,7 @@ public class OTP_verification extends AppCompatActivity {
     private String verificationId;
     private ProgressDialog progressDialog;
     private String phoneNumber;
-
-
-    private static final long RESEND_OTP_TIMEOUT = 60 * 1000; // 1 minute
-    private long lastResendTime = 0;
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +65,14 @@ public class OTP_verification extends AppCompatActivity {
         resendOtp = findViewById(R.id.resend_otp_textview);
 
         mAuth = FirebaseAuth.getInstance();
+        sessionManagement = new SessionManagement(this);
 
         phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
-        if (phoneNumber != null)
-        {
+        if (phoneNumber != null) {
             Log.d("OTP_VERIFICATION", "Received phone number: " + phoneNumber);
             mobile_number_textview.setText(phoneNumber);
             sendVerificationCode(phoneNumber);
-        }
-        else {
+        } else {
             Log.d("OTP_VERIFICATION", "No phone number received");
         }
 
@@ -96,37 +99,40 @@ public class OTP_verification extends AppCompatActivity {
             }
         });
 
-
-        backButton_otpverificationpage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OTP_verification.this, IndexPage.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                finish();
-            }
+        backButton_otpverificationpage.setOnClickListener(view -> {
+            Intent intent = new Intent(OTP_verification.this, IndexPage.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            finish();
         });
     }
 
     private void setupResendOtp() {
-        resendOtp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastResendTime >= RESEND_OTP_TIMEOUT) {
-                    sendVerificationCode(phoneNumber);
-                    lastResendTime = currentTime;
-                } else {
-                    long timeLeft = (RESEND_OTP_TIMEOUT - (currentTime - lastResendTime)) / 1000;
-                    MotionToast.Companion.createColorToast(OTP_verification.this,
-                            "Error", "Please wait " + timeLeft + " seconds before requesting again.",
-                            MotionToastStyle.ERROR,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.SHORT_DURATION,
-                            ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
-                }
-            }
+        resendOtp.setOnClickListener(view -> {
+            sendVerificationCode(phoneNumber);
+            countDownTimer.cancel();
+            startResendCooldown();
         });
+
+        startResendCooldown();
+    }
+
+    private void startResendCooldown() {
+        resendOtp.setEnabled(false);
+        countDownTimer = new CountDownTimer(120000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(minutes);
+                resendOtp.setText(String.format("Resend OTP in %d:%02d", minutes, seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                resendOtp.setText("Resend OTP");
+                resendOtp.setEnabled(true);
+            }
+        }.start();
     }
 
     private void setupOTPInputs() {
@@ -139,6 +145,7 @@ public class OTP_verification extends AppCompatActivity {
     }
 
     private void handleVerificationFailure(FirebaseException e) {
+        Log.e("OTP_VERIFICATION", "Verification failed: " + e.getMessage(), e);
         if (e.getMessage().contains("blocked")) {
             MotionToast.Companion.createColorToast(OTP_verification.this,
                     "Error", "Too many requests. Please try again later.",
@@ -156,7 +163,6 @@ public class OTP_verification extends AppCompatActivity {
         }
     }
 
-
     private void sendVerificationCode(String phoneNumber) {
         MotionToast.Companion.createColorToast(OTP_verification.this,
                 "Info", "Sending OTP...",
@@ -171,13 +177,14 @@ public class OTP_verification extends AppCompatActivity {
 
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
                 .setPhoneNumber(phoneNumber)
-                .setTimeout(60L, TimeUnit.SECONDS)
+                .setTimeout(90L, TimeUnit.SECONDS)
                 .setActivity(this)
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(PhoneAuthCredential credential) {
                         progressDialog.dismiss();
                         String code = credential.getSmsCode();
+                        Log.d("OTP_VERIFICATION", "Verification completed with code: " + code);
                         if (code != null) {
                             fillOTPInputs(code);
                             verifyCode(code);
@@ -195,6 +202,7 @@ public class OTP_verification extends AppCompatActivity {
                         super.onCodeSent(s, token);
                         progressDialog.dismiss();
                         verificationId = s;
+                        Log.d("OTP_VERIFICATION", "OTP sent, verification ID: " + verificationId);
                         MotionToast.Companion.createColorToast(OTP_verification.this,
                                 "Success", "OTP sent successfully.",
                                 MotionToastStyle.SUCCESS,
@@ -206,7 +214,6 @@ public class OTP_verification extends AppCompatActivity {
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-
 
     private void fillOTPInputs(String code) {
         if (code.length() == 6) {
@@ -234,19 +241,20 @@ public class OTP_verification extends AppCompatActivity {
                             MotionToast.SHORT_DURATION,
                             ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
 
+                    sessionManagement.setPhoneNumber(phoneNumber);
+                    retrieveUserId(phoneNumber);
+
                     Intent intent = new Intent(OTP_verification.this, IndexPage.class);
                     startActivity(intent);
                     MotionToast.Companion.createColorToast(OTP_verification.this,
-                            "Success", "Login successfully.",
+                            "Success", "Login successful.",
                             MotionToastStyle.SUCCESS,
                             MotionToast.GRAVITY_BOTTOM,
                             MotionToast.SHORT_DURATION,
                             ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
-                }
-                else
-                {
+                } else {
                     MotionToast.Companion.createColorToast(OTP_verification.this,
                             "Error", "Verification failed. Try again.",
                             MotionToastStyle.ERROR,
@@ -257,9 +265,7 @@ public class OTP_verification extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 verifyButton.setEnabled(true);
             });
-        }
-        else
-        {
+        } else {
             MotionToast.Companion.createColorToast(OTP_verification.this,
                     "Error", "Verification Id is null",
                     MotionToastStyle.ERROR,
@@ -299,5 +305,135 @@ public class OTP_verification extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {}
+    }
+
+    private void retrieveUserId(String phoneNumber) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUserid, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject.getString("status").equals("found")) {
+                    String userId = jsonObject.getString("user_id");
+                    sessionManagement.setUserId(userId);
+                    Log.d("OTP_VERIFICATION", "Retrieved User id: " + userId);
+                    retrieveUsername(phoneNumber);
+                } else {
+                    showToast("User ID not found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showToast("Error parsing user ID response");
+            }
+        }, error -> {
+            showToast("Failed to retrieve user ID");
+            logVolleyError(error);
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone_number", phoneNumber);
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    private void retrieveUsername(String phoneNumber) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUsername, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject.getString("status").equals("found")) {
+                    String username = jsonObject.getString("username");
+                    sessionManagement.setUsername(username);
+                    Log.d("OTP_VERIFICATION", "Retrieved Username: " + username);
+                    retrieveEmailId(phoneNumber);
+                } else {
+                    showToast("Username not found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showToast("Error parsing username response");
+            }
+        }, error -> {
+            showToast("Failed to retrieve username");
+            logVolleyError(error);
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone_number", phoneNumber);
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    private void retrieveEmailId(String phoneNumber) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getEmailId, response -> {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject.getString("status").equals("found")) {
+                    String emailId = jsonObject.getString("email_id");
+                    sessionManagement.setEmailId(emailId);
+                    Log.d("OTP_VERIFICATION", "Retrieved Email ID: " + emailId);
+                    proceedToIndexPage();
+                } else {
+                    showToast("Email ID not found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showToast("Error parsing email ID response");
+            }
+        }, error -> {
+            showToast("Failed to retrieve email ID");
+            logVolleyError(error);
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone_number", phoneNumber);
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    private void proceedToIndexPage() {
+        Intent intent = new Intent(OTP_verification.this, IndexPage.class);
+        startActivity(intent);
+        MotionToast.Companion.createColorToast(OTP_verification.this,
+                "Success", "Login successful.",
+                MotionToastStyle.SUCCESS,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.SHORT_DURATION,
+                ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
+    }
+
+    private void showToast(String message) {
+        MotionToast.Companion.createColorToast(OTP_verification.this,
+                "Info", message,
+                MotionToastStyle.INFO,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.SHORT_DURATION,
+                ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+    }
+
+    private void logVolleyError(VolleyError error) {
+        String errorMessage = error.getMessage();
+        if (errorMessage == null) {
+            errorMessage = "Unknown error occurred";
+        }
+
+        MotionToast.Companion.createColorToast(OTP_verification.this,
+                "Internet Error", "Please check your internet connection",
+                MotionToastStyle.INFO,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+
+        Log.d("VOLLEY", errorMessage);
     }
 }

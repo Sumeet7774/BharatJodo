@@ -224,6 +224,5 @@ public class LoginPage extends AppCompatActivity {
             }
         };
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
-
     }
 }

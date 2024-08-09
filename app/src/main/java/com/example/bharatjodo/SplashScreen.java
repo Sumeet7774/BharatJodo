@@ -15,7 +15,5 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash_screen);
-
-
     }
 }
