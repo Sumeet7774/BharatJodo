@@ -32,12 +32,22 @@ public class WalkthroughScreen extends AppCompatActivity {
 
     TextView[] dots;
     ViewPagerAdapter viewPagerAdapter;
+    SessionManagement sessionManagement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_walkthrough_screen);
+
+        sessionManagement = new SessionManagement(this);
+
+        if(!sessionManagement.getUserId().isEmpty())
+        {
+            Intent intent = new Intent(WalkthroughScreen.this, SplashScreen.class);
+            startActivity(intent);
+            finish();
+        }
 
         backbtn = findViewById(R.id.backButton);
         nextbtn = findViewById(R.id.nextButton);
