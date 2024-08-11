@@ -1,6 +1,6 @@
 package com.example.bharatjodo;
 
-import static java.security.AccessController.getContext;
+
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -31,7 +31,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import org.json.JSONObject;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -488,7 +488,7 @@ public class OTP_verification extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
-    
+
     private void logVolleyError(VolleyError error) {
         String errorMessage = error.getMessage();
         if (errorMessage == null) {
