@@ -488,20 +488,7 @@ public class OTP_verification extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
-
-
-
-
-
-    private void showToast(String message) {
-        MotionToast.Companion.createColorToast(OTP_verification.this,
-                "Info", message,
-                MotionToastStyle.INFO,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.SHORT_DURATION,
-                ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
-    }
-
+    
     private void logVolleyError(VolleyError error) {
         String errorMessage = error.getMessage();
         if (errorMessage == null) {
