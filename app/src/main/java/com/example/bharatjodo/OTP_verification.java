@@ -252,6 +252,8 @@ public class OTP_verification extends AppCompatActivity {
                     sessionManagement.setPhoneNumber(phoneNumber);
                     Log.d("Session Phone Number", "Phone Number: " + sessionManagement.getPhoneNumber());
                     retrieveUserId(phoneNumber);
+                    retrieveUsername(phoneNumber);
+                    retrieveEmailid(phoneNumber);
 
                 } else {
                     MotionToast.Companion.createColorToast(OTP_verification.this,
@@ -350,12 +352,11 @@ public class OTP_verification extends AppCompatActivity {
     }
 
     private String extractUserIdFromResponse(String response) {
-        String pattern = "Connection Successfull\\s*(\\d+)";
+        String pattern = "connection successfull(\\w+)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(response);
 
-        if (m.find())
-        {
+        if (m.find()) {
             return m.group(1);
         }
 
@@ -363,6 +364,117 @@ public class OTP_verification extends AppCompatActivity {
         return null;
     }
 
+    private void retrieveUsername(final String phoneNumber) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUsername,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("retrieveUsername", "Response: " + response);
+
+                        String username = extractUsernameFromResponse(response);
+
+                        if (username != null) {
+                            sessionManagement.setUsername(username);
+                            Log.d("Session Username", "Username: " + username);
+                            proceedToHomeScreen();
+                        }
+                        else
+                        {
+                            MotionToast.Companion.createColorToast(OTP_verification.this,
+                                    "Error", "User not found.",
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        logVolleyError(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone_number", phoneNumber);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private String extractUsernameFromResponse(String response) {
+        String pattern = "connection successfull(\\w+)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(response);
+
+        if (m.find()) {
+            return m.group(1);
+        }
+
+        Log.d("extractUsernameFromResponse", "Failed to extract username from response: " + response);
+        return null;
+    }
+
+    private void retrieveEmailid(final String phoneNumber) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getEmailId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("retrieveEmailid", "Response: " + response);
+
+                        String emailId = extractEmailidFromResponse(response);
+
+                        if (emailId != null) {
+                            sessionManagement.setEmailId(emailId);
+                            Log.d("Session Emailid", "Email id: " + emailId);
+                            proceedToHomeScreen();
+                        }
+                        else
+                        {
+                            MotionToast.Companion.createColorToast(OTP_verification.this,
+                                    "Error", "User not found.",
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(OTP_verification.this, R.font.montserrat_semibold));
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        logVolleyError(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone_number", phoneNumber);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private String extractEmailidFromResponse(String response) {
+        String pattern = "connection successfull([\\w\\-.]+@[\\w\\-.]+)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(response);
+
+        if (m.find()) {
+            return m.group(1);
+        }
+
+        Log.d("extractEmailidFromResponse", "Failed to extract emailid from response: " + response);
+        return null;
+    }
 
     private void proceedToHomeScreen() {
         Intent intent = new Intent(OTP_verification.this, HomeScreen.class);
@@ -376,6 +488,10 @@ public class OTP_verification extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
+
+
+
+
 
     private void showToast(String message) {
         MotionToast.Companion.createColorToast(OTP_verification.this,
