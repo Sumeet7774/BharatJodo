@@ -53,4 +53,5 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation libs.core.ktx
     implementation libs.volley
+    implementation libs.shimmer
 }
