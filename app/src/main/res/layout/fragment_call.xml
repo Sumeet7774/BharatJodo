@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#EEEEEE"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#222831"
+        android:padding="10dp"
+        android:id="@+id/toolbar">
+
+        <TextView
+            android:id="@+id/toolbar_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/video_call_toolbar"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="#EEEEEE"
+            android:textSize="@dimen/_20sdp" />
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/videocallAnimationView_callfragment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_300sdp"
+        app:lottie_rawRes="@raw/videochat"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="@dimen/_10sdp"
+        />
+
+    <Button
+        android:id="@+id/one_to_one_videocall_button"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/one_to_one_videocall"
+        android:background="@drawable/rounded_button"
+        android:textColor="#EEEEEE"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="bold"
+        android:layout_below="@id/videocallAnimationView_callfragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/group_videocall_button"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/group_video_call"
+        android:background="@drawable/rounded_button"
+        android:textColor="#EEEEEE"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="bold"
+        android:layout_below="@id/one_to_one_videocall_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

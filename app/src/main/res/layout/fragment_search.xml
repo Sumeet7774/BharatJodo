@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#222831"
         android:padding="10dp"
         android:id="@+id/toolbar">
 
@@ -18,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:fontFamily="@font/poppins_bold"
-            android:text="Search"
+            android:text="@string/search_toolbar"
             android:layout_marginStart="@dimen/_20sdp"
-            android:textColor="@color/black"
+            android:textColor="#EEEEEE"
             android:textSize="@dimen/_20sdp" />
 
     </RelativeLayout>
