@@ -38,7 +38,7 @@
 
     <string name="greetings">Namaste, Welcome to Bharat Jodo</string>
     <string name="success">Success</string>
-    <string name="success_dialogbox_text">Registration Successfull!</string>
+    <string name="success_dialogbox_text">Registration Successful!</string>
     <string name="enter_your_phone_number_signuppage">Enter your phone number</string>
     <string name="success_title_dialogbox">Success!</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -48,7 +48,7 @@
     <string name="no_users_found">No Users found</string>
     <string name="no_user_found">No User found</string>
     <string name="one_to_one_video_call">One To One Video Call</string>
-    <string name="one_to_one_videocall">1-1 Video Call</string>
+    <string name="one_to_one_videocall">1–1 Video Call</string>
     <string name="group_video_call">Group Video Call</string>
     <string name="video_call_toolbar">Video Call</string>
     <string name="search_toolbar">Search</string>
