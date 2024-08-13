@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#EEEEEE"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#222831"
+        android:padding="10dp"
+        android:id="@+id/toolbar">
+
+        <TextView
+            android:id="@+id/toolbar_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/profile_toolbar"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="#EEEEEE"
+            android:textSize="@dimen/_20sdp" />
+
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_below="@id/toolbar">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/profilePhoto"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:src="@drawable/baseline_account_circle_24"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/username_textview"
+                android:text="@string/username_profilepage"
+                android:textSize="@dimen/_20sdp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profilePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardUpdateProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:elevation="@dimen/_5sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_profile_photo_text"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="@dimen/_18sdp"
+                android:padding="@dimen/_15sdp" />
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

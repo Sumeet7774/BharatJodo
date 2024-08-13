@@ -55,5 +55,8 @@
     <string name="home_toolbar">Home</string>
     <string name="friends_toolbar">Friends</string>
     <string name="no_friends_found">No Friends Found</string>
+    <string name="profile_toolbar">Profile</string>
+    <string name="username_profilepage">Username</string>
+    <string name="update_profile_photo_text">Update Profile</string>
 
 </resources>
