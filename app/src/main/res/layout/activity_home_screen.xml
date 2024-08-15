@@ -23,42 +23,11 @@
         android:layout_height="match_parent"
         android:paddingTop="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentStart="true"
-            android:padding="0dp"
-            android:layout_margin="0dp"
-            app:contentInsetStart="0dp"
-            android:fitsSystemWindows="false">
-
-            <RelativeLayout
-                android:background="#222831"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="0dp"
-                android:layout_margin="0dp">
-
-                <TextView
-                    android:id="@+id/toolbar_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="@string/home_toolbar"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:textColor="#EEEEEE"
-                    android:textSize="@dimen/_20sdp" />
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
-
         <FrameLayout
-            android:id="@+id/body_container"
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottomNavigationMenu"
-            android:layout_below="@id/toolbar" />
+            android:layout_above="@id/bottomNavigationMenu" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationMenu"
@@ -66,9 +35,9 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_25sdp"
             android:background="@drawable/rounded_corners"
-            android:elevation="2dp"
+            android:elevation="0dp"
             app:itemIconSize="@dimen/_20sdp"
             app:itemIconTint="@drawable/item_selector"
             app:itemTextColor="@drawable/item_selector"

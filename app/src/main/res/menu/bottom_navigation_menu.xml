@@ -13,7 +13,7 @@
         android:title="Call"
         android:icon="@drawable/baseline_call_24"/>
 
-    <item android:id="@+id/friens_menu"
+    <item android:id="@+id/friends_menu"
         android:title="Friends"
         android:icon="@drawable/diversity_3_24px"/>
 
