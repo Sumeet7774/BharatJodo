@@ -58,5 +58,10 @@
     <string name="profile_toolbar">Profile</string>
     <string name="username_profilepage">Username</string>
     <string name="update_profile_photo_text">Update Profile</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="sent">Sent</string>
+    <string name="username">Username</string>
+    <string name="phonenumber">+919999999999</string>
+    <string name="friends">Friends</string>
 
 </resources>
