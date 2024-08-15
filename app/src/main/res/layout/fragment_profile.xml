@@ -61,24 +61,69 @@
                 android:layout_below="@id/username_textview"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:clickable="true"
+                android:clickable="false"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:elevation="@dimen/_5sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/update_profile_photo_text"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textSize="@dimen/_18sdp"
-                android:padding="@dimen/_15sdp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/updateprofile_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/update_profile_photo_text"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:textSize="@dimen/_18sdp"
+                        android:padding="@dimen/_15sdp"
+                        android:layout_centerVertical="true" />
+
+                    <ImageButton
+                        android:id="@+id/updateprofile_rightbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/right_button_24px" />
+
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardFriendRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardUpdateProfile"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:clickable="false"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:elevation="@dimen/_5sdp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pending_friend_requests"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:textSize="@dimen/_18sdp"
+                        android:padding="@dimen/_15sdp"
+                        android:layout_centerVertical="true" />
 
+                    <ImageButton
+                        android:id="@+id/friend_requests_rightbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/right_button_24px" />
 
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -63,5 +63,6 @@
     <string name="username">Username</string>
     <string name="phonenumber">+919999999999</string>
     <string name="friends">Friends</string>
+    <string name="pending_friend_requests">Pending Friend Requests</string>
 
 </resources>
