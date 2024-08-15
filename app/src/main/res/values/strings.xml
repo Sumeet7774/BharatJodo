@@ -51,7 +51,7 @@
     <string name="one_to_one_videocall">1–1 Video Call</string>
     <string name="group_video_call">Group Video Call</string>
     <string name="video_call_toolbar">Video Call</string>
-    <string name="search_toolbar">Search</string>
+    <string name="search_toolbar">Search User</string>
     <string name="home_toolbar">Home</string>
     <string name="friends_toolbar">Friends</string>
     <string name="no_friends_found">No Friends Found</string>
