@@ -42,7 +42,7 @@
             android:hint="@string/search_username"
             android:padding="10dp"
             android:elevation="4dp"
-            android:layout_toLeftOf="@id/search_user_button" />
+            android:layout_toStartOf="@id/search_user_button" />
 
         <ImageButton
             android:id="@+id/search_user_button"
