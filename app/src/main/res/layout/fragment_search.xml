@@ -34,11 +34,12 @@
         android:layout_margin="10dp">
 
         <EditText
-            android:id="@+id/seach_username_input"
+            android:id="@+id/search_username_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_rounded_corners"
             android:layout_margin="10dp"
+            android:maxLength="16"
             android:hint="@string/search_username"
             android:padding="10dp"
             android:elevation="4dp"

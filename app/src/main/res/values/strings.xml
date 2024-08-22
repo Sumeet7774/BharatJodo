@@ -70,5 +70,6 @@
     <string name="contact_us">Contact Us</string>
     <string name="delete_user">Delete User</string>
     <string name="log_out">Log Out</string>
+    <string name="add_friend_two">Add Friend</string>
 
 </resources>
