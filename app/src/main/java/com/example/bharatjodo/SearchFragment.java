@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -54,37 +56,24 @@ public class SearchFragment extends Fragment {
         searchUserRecyclerView = view.findViewById(R.id.search_user_recycler_view);
         noUsersFoundTextView = view.findViewById(R.id.norusersfoundinsearch_textview);
 
-
-        InputFilter noSpacesandlowercaseFilter = new InputFilter() {
+        // Input filter for only lowercase letters and no spaces
+        InputFilter noSpacesAndLowercaseFilter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source != null) {
-                    if (source.toString().matches(".*[A-Z].*"))
-                    {
-                        MotionToast.Companion.createColorToast(getActivity(),
-                                "Error", "Only lowercase letters are allowed.",
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.SHORT_DURATION,
-                                ResourcesCompat.getFont(getContext(), R.font.montserrat_semibold));
+                    if (source.toString().matches(".*[A-Z].*")) {
+                        showToast("Only lowercase letters are allowed.");
                         return "";
                     }
-                    if (source.toString().contains(" "))
-                    {
-                        MotionToast.Companion.createColorToast(getActivity(),
-                                "Error", "Spaces are not allowed.",
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.SHORT_DURATION,
-                                ResourcesCompat.getFont(getContext(), R.font.montserrat_semibold));
+                    if (source.toString().contains(" ")) {
+                        showToast("Spaces are not allowed.");
                         return source.toString().replace(" ", "");
                     }
                 }
                 return null;
             }
         };
-
-        searchUsernameEditText.setFilters(new InputFilter[]{noSpacesandlowercaseFilter, new InputFilter.LengthFilter(12)});
+        searchUsernameEditText.setFilters(new InputFilter[]{noSpacesAndLowercaseFilter, new InputFilter.LengthFilter(12)});
 
         userList = new ArrayList<>();
         adapter = new UserAdaptor(getContext(), userList, this::onUserClick);
@@ -96,35 +85,15 @@ public class SearchFragment extends Fragment {
 
         searchUserButton.setOnClickListener(v -> {
             String query = searchUsernameEditText.getText().toString().trim();
-
-            if (TextUtils.isEmpty(query))
-            {
+            if (TextUtils.isEmpty(query)) {
                 Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
-            }
-            else if (!isValidUsername(query))
-            {
-                MotionToast.Companion.createColorToast(getActivity(),
-                        "Error", "Username must contain only letters.",
-                        MotionToastStyle.ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.SHORT_DURATION,
-                        ResourcesCompat.getFont(getContext(), R.font.montserrat_semibold));
-            }
-            else
-            {
+            } else if (!isValidUsername(query)) {
+                showToast("Username must contain only letters.");
+            } else {
                 String username = sessionManagement.getUsername();
-
-                if (query.equals(username))
-                {
-                    MotionToast.Companion.createColorToast(getActivity(),
-                            "Error", "Can't search for your own username",
-                            MotionToastStyle.ERROR,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.SHORT_DURATION,
-                            ResourcesCompat.getFont(getContext(), R.font.montserrat_semibold));
-                }
-                else
-                {
+                if (query.equals(username)) {
+                    showToast("Can't search for your own username");
+                } else {
                     searchUser(query);
                 }
             }
@@ -133,41 +102,34 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+    private void showToast(String message) {
+        MotionToast.Companion.createColorToast(getActivity(),
+                "Error", message,
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.SHORT_DURATION,
+                ResourcesCompat.getFont(getContext(), R.font.montserrat_semibold));
+    }
+
     private void searchUser(String query) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.search_user_url,
                 response -> {
                     Log.d("SearchResponse", response);
-
                     try {
                         int startIndex = response.indexOf("{");
                         int endIndex = response.lastIndexOf("}") + 1;
                         String jsonResponse = response.substring(startIndex, endIndex);
-
                         Log.d("SearchUser", "Cleaned Response: " + jsonResponse);
-
                         JSONObject jsonObject = new JSONObject(jsonResponse);
 
                         if (jsonObject.getString("status").equals("found")) {
                             userList.clear();
-
-                            String userId = jsonObject.getString("user_id");
+                            String receiverUserId = jsonObject.getString("user_id");
                             String username = jsonObject.getString("username");
                             String phoneNumber = jsonObject.getString("phone_number");
 
-                            userList.add(new UserModel(userId, username, phoneNumber));
-                            adapter.notifyDataSetChanged();
-
-                            if (userList.isEmpty())
-                            {
-                                noUsersFoundTextView.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                noUsersFoundTextView.setVisibility(View.GONE);
-                            }
-                        }
-                        else
-                        {
+                            checkFriendshipStatus(receiverUserId, username, phoneNumber);
+                        } else {
                             noUsersFoundTextView.setVisibility(View.VISIBLE);
                             noUsersFoundTextView.setText("No user found");
                         }
@@ -192,9 +154,50 @@ public class SearchFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    private void checkFriendshipStatus(String receiverUserId, String username, String phoneNumber) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.checkfriendhip_url,
+                response -> {
+                    Log.d("FriendshipStatus", response);
+                    try {
+                        int startIndex = response.indexOf("{");
+
+                        if (startIndex != -1)
+                        {
+                            String jsonResponse = response.substring(startIndex);
+                            JSONObject jsonObject = new JSONObject(jsonResponse);
+
+                            String status = jsonObject.getString("status");
+                            userList.add(new UserModel(receiverUserId, username, phoneNumber, status));
+                            adapter.notifyDataSetChanged();
+                            noUsersFoundTextView.setVisibility(userList.isEmpty() ? View.VISIBLE : View.GONE);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(), "Invalid response format", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), "Error parsing response", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Log.e("CheckFriendshipStatus", "Error: " + error.toString());
+                    Toast.makeText(getContext(), "Error checking friendship status", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("sender_user_id", userId);
+                params.put("receiver_user_id", receiverUserId);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }
 
     private void onUserClick(UserModel userModel) {
-        // Handle user click event here (view details, edit, delete, etc.)
         Toast.makeText(getContext(), "Clicked on: " + userModel.getUsername(), Toast.LENGTH_SHORT).show();
     }
 

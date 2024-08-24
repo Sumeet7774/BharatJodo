@@ -16,33 +16,40 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.UserViewHolder
 
     private Context context;
     private ArrayList<UserModel> userList;
-    private OnAddFriendClickListener addFriendClickListener;
+    private OnUserClickListener onUserClickListener;
 
-    public UserAdaptor(Context context, ArrayList<UserModel> userList, OnAddFriendClickListener addFriendClickListener) {
+    public UserAdaptor(Context context, ArrayList<UserModel> userList, OnUserClickListener onUserClickListener) {
         this.context = context;
         this.userList = userList;
-        this.addFriendClickListener = addFriendClickListener;
+        this.onUserClickListener = onUserClickListener;
     }
 
-    public interface OnAddFriendClickListener {
-        void onAddFriendClick(UserModel userModel);
+    @Override
+    public int getItemViewType(int position) {
+        String status = userList.get(position).getFriendshipStatus();
+        if ("pending".equals(status)) {
+            return R.layout.custom_friendrequest_sent_cardview;
+        } else if ("accepted".equals(status)) {
+            return R.layout.custom_acceptedfriend_cardview;
+        } else {
+            return R.layout.custom_add_friend_cardview;
+        }
     }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_add_friend_cardview, parent, false);
+        View view = LayoutInflater.from(context).inflate(viewType, parent, false);
         return new UserViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         UserModel userModel = userList.get(position);
-
         holder.usernameTextView.setText(userModel.getUsername());
         holder.phoneNumberTextView.setText(userModel.getPhoneNumber());
 
-        holder.addFriendButton.setOnClickListener(v -> addFriendClickListener.onAddFriendClick(userModel));
+        holder.itemView.setOnClickListener(v -> onUserClickListener.onUserClick(userModel));
     }
 
     @Override
@@ -50,17 +57,20 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.UserViewHolder
         return userList.size();
     }
 
-    static class UserViewHolder extends RecyclerView.ViewHolder {
+    public interface OnUserClickListener {
+        void onUserClick(UserModel userModel);
+    }
 
+    public class UserViewHolder extends RecyclerView.ViewHolder {
         TextView usernameTextView;
         TextView phoneNumberTextView;
-        Button addFriendButton;
+        Button actionButton;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
-            usernameTextView = itemView.findViewById(R.id.addfriend_cardviewUsername_textview);
-            phoneNumberTextView = itemView.findViewById(R.id.addfriend_cardviewPhoneNumber_textview);
-            addFriendButton = itemView.findViewById(R.id.addfriend_button);
+            usernameTextView = itemView.findViewById(R.id.cardviewUsername_textview);
+            phoneNumberTextView = itemView.findViewById(R.id.cardviewPhoneNumber_textview);
+            actionButton = itemView.findViewById(R.id.cardview_action_button);
         }
     }
 }
