@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class SearchFragment extends Fragment {
     private ImageButton searchUserButton;
     private RecyclerView searchUserRecyclerView;
     private TextView noUsersFoundTextView;
+    private ProgressBar searchprogressBar;
     private UserAdaptor adapter;
     private ArrayList<UserModel> userList;
     private SessionManagement sessionManagement;
@@ -55,6 +57,7 @@ public class SearchFragment extends Fragment {
         searchUserButton = view.findViewById(R.id.search_user_button);
         searchUserRecyclerView = view.findViewById(R.id.search_user_recycler_view);
         noUsersFoundTextView = view.findViewById(R.id.norusersfoundinsearch_textview);
+        searchprogressBar = view.findViewById(R.id.search_progress_bar);
 
         // Input filter for only lowercase letters and no spaces
         InputFilter noSpacesAndLowercaseFilter = new InputFilter() {
@@ -112,8 +115,12 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchUser(String query) {
+        searchprogressBar.setVisibility(View.VISIBLE);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.search_user_url,
                 response -> {
+                    searchprogressBar.setVisibility(View.GONE);
+
                     Log.d("SearchResponse", response);
                     try {
                         int startIndex = response.indexOf("{");
@@ -139,6 +146,7 @@ public class SearchFragment extends Fragment {
                     }
                 },
                 error -> {
+                    searchprogressBar.setVisibility(View.GONE);
                     Log.e("SearchUser", "Error: " + error.toString());
                     Toast.makeText(getContext(), "Error fetching users", Toast.LENGTH_SHORT).show();
                 }) {
@@ -155,9 +163,14 @@ public class SearchFragment extends Fragment {
     }
 
     private void checkFriendshipStatus(String receiverUserId, String username, String phoneNumber) {
+        searchprogressBar.setVisibility(View.GONE);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.checkfriendhip_url,
                 response -> {
+                    searchprogressBar.setVisibility(View.GONE);
+
                     Log.d("FriendshipStatus", response);
+
                     try {
                         int startIndex = response.indexOf("{");
 
@@ -181,6 +194,8 @@ public class SearchFragment extends Fragment {
                     }
                 },
                 error -> {
+                    searchprogressBar.setVisibility(View.GONE);
+
                     Log.e("CheckFriendshipStatus", "Error: " + error.toString());
                     Toast.makeText(getContext(), "Error checking friendship status", Toast.LENGTH_SHORT).show();
                 }) {
