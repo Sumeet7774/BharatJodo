@@ -71,5 +71,7 @@
     <string name="delete_user">Delete User</string>
     <string name="log_out">Log Out</string>
     <string name="add_friend_two">Add Friend</string>
+    <string name="pending_friend_requests_text">Pending Friend Requests</string>
+    <string name="no_pending_friend_requests_found">No Pending Friend Requests Found</string>
 
 </resources>

@@ -6,7 +6,7 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_margin="@dimen/_5sdp"
-    app:cardCornerRadius="@dimen/_50sdp"
+    app:cardCornerRadius="@dimen/_25sdp"
     app:cardElevation="@dimen/_5sdp">
 
     <RelativeLayout
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp">
 
@@ -71,8 +71,8 @@
                 android:fontFamily="@font/poppins_bold"
                 android:textColor="#FFFFFF"
                 android:text="@string/accept"
-                android:paddingHorizontal="@dimen/_12sdp"
-                android:paddingVertical="@dimen/_6sdp" />
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_5sdp" />
 
             <Button
                 android:id="@+id/pendingfriendrequest_reject_button"
@@ -82,9 +82,9 @@
                 android:fontFamily="@font/poppins_bold"
                 android:textColor="#FFFFFF"
                 android:text="@string/reject"
-                android:layout_marginStart="@dimen/_2sdp"
-                android:paddingHorizontal="@dimen/_12sdp"
-                android:paddingVertical="@dimen/_6sdp" />
+                android:layout_marginStart="@dimen/_1sdp"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_5sdp" />
 
         </LinearLayout>
     </RelativeLayout>

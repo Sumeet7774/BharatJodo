@@ -45,7 +45,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/username_textview"
+                android:id="@+id/username_textview_profile"
                 android:text="@string/username_profilepage"
                 android:textSize="@dimen/_20sdp"
                 android:fontFamily="@font/montserrat_semibold"
@@ -59,7 +59,7 @@
                 android:id="@+id/cardUpdateProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/username_textview"
+                android:layout_below="@id/username_textview_profile"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:clickable="false"
@@ -92,7 +92,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardFriendRequests"
+                android:id="@+id/cardPendingFriendRequests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardUpdateProfile"
@@ -131,7 +131,7 @@
                 android:id="@+id/cardAboutUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardFriendRequests"
+                android:layout_below="@id/cardPendingFriendRequests"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:clickable="false"
