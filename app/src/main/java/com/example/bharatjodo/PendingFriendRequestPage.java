@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PendingFriendRequestPage extends AppCompatActivity {
+public class PendingFriendRequestPage extends AppCompatActivity implements PendingFriendRequestAdapter.OnDataChangedListener {
 
     private SessionManagement sessionManagement;
     private RecyclerView recyclerView;
@@ -47,17 +47,12 @@ public class PendingFriendRequestPage extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         pendingFriendRequestList = new ArrayList<>();
-        adapter = new PendingFriendRequestAdapter(pendingFriendRequestList);
+        adapter = new PendingFriendRequestAdapter(pendingFriendRequestList, this);
         recyclerView.setAdapter(adapter);
 
         loadPendingFriendRequests();
 
-        backButton_pendingfriendrequestpage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed(); // Navigate back to the previous fragment/activity
-            }
-        });
+        backButton_pendingfriendrequestpage.setOnClickListener(view -> onBackPressed()); // Navigate back to the previous fragment/activity
     }
 
     private void loadPendingFriendRequests() {
@@ -71,54 +66,44 @@ public class PendingFriendRequestPage extends AppCompatActivity {
 
                     Log.d("PendingFriendRequestResponse", response);
 
-                    try
-                    {
+                    try {
                         int startIndex = response.indexOf("[");
                         int endIndex = response.lastIndexOf("]") + 1;
 
-                        if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
-                        {
+                        if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
                             String jsonResponse = response.substring(startIndex, endIndex);
                             Log.d("PendingFriendRequest", "Cleaned Response: " + jsonResponse);
 
                             JSONArray jsonArray = new JSONArray(jsonResponse);
 
-                            if (jsonArray.length() > 0)
-                            {
+                            if (jsonArray.length() > 0) {
                                 pendingFriendRequestList.clear();
 
-                                for (int i = 0; i < jsonArray.length(); i++)
-                                {
+                                for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     String username = jsonObject.getString("username");
                                     String phoneNumber = jsonObject.getString("phone_number");
+                                    int friendshipId = jsonObject.getInt("friendship_id");  // Extract the friendship ID
 
-                                    pendingFriendRequestList.add(new PendingFriendRequestModel(username, phoneNumber));
+                                    pendingFriendRequestList.add(new PendingFriendRequestModel(username, phoneNumber, friendshipId));
                                 }
                                 adapter.notifyDataSetChanged();
                                 noPendingRequestsTextView.setVisibility(View.GONE);
-                            }
-                            else
-                            {
+                            } else {
                                 noPendingRequestsTextView.setVisibility(View.VISIBLE);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             noPendingRequestsTextView.setVisibility(View.VISIBLE);
-                            Log.e("PendingFriendRequest", "Invalid response format");
                         }
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         noPendingRequestsTextView.setVisibility(View.VISIBLE);
                     }
                 },
                 error -> {
                     progressBar.setVisibility(View.GONE);
-                    noPendingRequestsTextView.setVisibility(View.VISIBLE);
                     error.printStackTrace();
+                    noPendingRequestsTextView.setVisibility(View.VISIBLE);
                 }) {
             @Override
             protected Map<String, String> getParams() {
@@ -127,13 +112,15 @@ public class PendingFriendRequestPage extends AppCompatActivity {
                 return params;
             }
         };
+
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
     @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    public void onDataChanged() {
+        // Update visibility based on the current list size
+        if (adapter.getItemCount() == 0) {
+            noPendingRequestsTextView.setVisibility(View.VISIBLE);
+        }
     }
 }

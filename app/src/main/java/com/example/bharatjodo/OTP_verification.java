@@ -309,7 +309,7 @@ public class OTP_verification extends AppCompatActivity {
     }
 
     private void retrieveUserId(final String phoneNumber) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUserid,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUserid_url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -365,7 +365,7 @@ public class OTP_verification extends AppCompatActivity {
     }
 
     private void retrieveUsername(final String phoneNumber) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUsername,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getUsername_url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -421,7 +421,7 @@ public class OTP_verification extends AppCompatActivity {
     }
 
     private void retrieveEmailid(final String phoneNumber) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getEmailId,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.getEmailId_url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

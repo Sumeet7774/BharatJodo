@@ -41,6 +41,9 @@ public class ProfileFragment extends Fragment {
         aboutusCardview_opener_button = view.findViewById(R.id.aboutus_rightbutton);
         contactusCardview_opener_button = view.findViewById(R.id.contactus_rightbutton);
 
+        String profileUsername = sessionManagement.getUsername();
+        username_profile_textview.setText(profileUsername);
+
         updateprofileCardview_opener_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

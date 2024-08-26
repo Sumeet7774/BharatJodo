@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#EEEEEE"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
 
     <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#222831"
-        android:padding="10dp"
-        android:id="@+id/toolbar">
+        android:padding="10dp">
 
         <Button
             android:id="@+id/back_button_pendingfriendrequestpage"
@@ -26,50 +26,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_45sdp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/pending_friend_requests_text"
-            android:layout_marginStart="@dimen/_45sdp"
             android:textColor="#EEEEEE"
             android:textSize="@dimen/_20sdp" />
 
     </RelativeLayout>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layout_marginTop="@dimen/_10sdp">
 
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pending_friend_request_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:padding="10dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pending_friend_request_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp" />
+        <TextView
+            android:id="@+id/nopendingrequestsfound_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:visibility="gone"
+            android:text="@string/no_pending_friend_requests_found"
+            android:textSize="@dimen/_25sdp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/nopendingrequestsfound_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                android:text="@string/no_pending_friend_requests_found"
-                android:textSize="@dimen/_25sdp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textColor="@color/black" />
+        <ProgressBar
+            android:id="@+id/pendingfriendrequest_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:theme="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
-            <ProgressBar
-                android:id="@+id/pendingfriendrequest_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                android:indeterminate="true"
-                android:theme="@style/Widget.AppCompat.ProgressBar.Horizontal" />
-
-        </RelativeLayout>
-    </ScrollView>
+    </FrameLayout>
 </RelativeLayout>
