@@ -128,6 +128,17 @@ public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.UserViewHolder
                                 userModel.setFriendshipStatus("pending");
                                 notifyItemChanged(holder.getAdapterPosition());
                             }
+                            else if("unsuccessfull".equals(status) && "Friend request already exists".equals(message))
+                            {
+                                MotionToast.Companion.createColorToast((Activity) context,
+                                        "Already Sent", "Friend request already sent ",
+                                        MotionToastStyle.INFO,
+                                        MotionToast.GRAVITY_BOTTOM,
+                                        MotionToast.SHORT_DURATION,
+                                        ResourcesCompat.getFont(context, R.font.montserrat_semibold));
+                                userModel.setFriendshipStatus("pending");
+                                notifyItemChanged(holder.getAdapterPosition());
+                            }
                             else
                             {
                                 MotionToast.Companion.createColorToast((Activity) context,
