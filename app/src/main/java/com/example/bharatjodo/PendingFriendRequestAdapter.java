@@ -88,7 +88,7 @@ public class PendingFriendRequestAdapter extends RecyclerView.Adapter<PendingFri
                                 }
 
                                 if ("accepted".equals(status)) {
-                                    showMotionToast(holder.itemView.getContext(), "Friend Request Accepted", "You are now friends", MotionToastStyle.SUCCESS);
+                                    showMotionToast(holder.itemView.getContext(), "Friend Request Accepted", "You added that user as friend", MotionToastStyle.SUCCESS);
                                 } else if ("rejected".equals(status)) {
                                     showMotionToast(holder.itemView.getContext(), "Friend Request Rejected", "You rejected the friend request", MotionToastStyle.ERROR);
                                 }
