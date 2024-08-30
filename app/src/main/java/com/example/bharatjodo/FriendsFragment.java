@@ -50,7 +50,7 @@ public class FriendsFragment extends Fragment {
         friendsRecyclerview = view.findViewById(R.id.friends_recycler_view);
 
         friendList = new ArrayList<>();
-        friendsAdapter = new FriendsAdapter(friendList);
+        friendsAdapter = new FriendsAdapter(friendList, getContext());
         friendsRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         friendsRecyclerview.setAdapter(friendsAdapter);
 

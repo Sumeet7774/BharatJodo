@@ -1,7 +1,7 @@
 package com.example.bharatjodo;
 
 public class ApiEndpoints {
-    private static final String base_url = "https://78ab-2405-201-201f-609b-5867-7243-34f8-3d4d.ngrok-free.app/BharatJodoApi/";
+    private static final String base_url = "https://53d1-2405-201-201f-609b-5ced-fe6f-8137-cc7a.ngrok-free.app/BharatJodoApi/";
     public static final String register_url = base_url + "register.php";
     public static final String login_url = base_url + "login.php";
     public static final String getUserid_url = base_url + "get_user_id.php";
@@ -13,6 +13,6 @@ public class ApiEndpoints {
     public static final String retrievePendingFriendRequests_url = base_url + "retrieve_pending_friendrequest.php";
     public static final String updatefriendship_url = base_url + "update_friendship.php";
     public static final String retrieveFriends_url = base_url + "retrieve_friends.php";
-
-
+    public static final String checkFriendshipForChat_url = base_url + "check_friendship_for_chat.php";
+    public static final String getFriendId_url = base_url + "get_friend_id.php";
 }
