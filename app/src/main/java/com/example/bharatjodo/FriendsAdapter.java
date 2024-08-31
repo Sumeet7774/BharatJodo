@@ -82,7 +82,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                                 else if("pending".equals(status))
                                 {
                                     MotionToast.Companion.createColorToast((Activity) context,
-                                            "Friend request pending", "Friend request is still pending either from your side or that user",
+                                            "Friend request pending", "The friend request is still pending, either from your side or the other user's.",
                                             MotionToastStyle.WARNING,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.SHORT_DURATION,
@@ -91,7 +91,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                                 else
                                 {
                                     MotionToast.Companion.createColorToast((Activity) context,
-                                            "Friend request rejected", "Friend request was rejected either by you or by that user",
+                                            "Friend request rejected", "The friend request was rejected, either by you or the other user.",
                                             MotionToastStyle.ERROR,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.SHORT_DURATION,
