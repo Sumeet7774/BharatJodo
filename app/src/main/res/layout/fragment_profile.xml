@@ -33,7 +33,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="80dp"> <!-- Add padding to ensure buttons are not cut off -->
+            android:paddingBottom="80dp">
 
             <ImageView
                 android:id="@+id/profilePhoto"

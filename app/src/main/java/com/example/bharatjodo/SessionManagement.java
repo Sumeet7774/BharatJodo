@@ -51,6 +51,16 @@ public class SessionManagement {
         prefs.edit().putString("phone_number", phoneNumber).apply();
     }
 
+    public String getFriendId()
+    {
+        return prefs.getString("friend_id", "");
+    }
+
+    public void setFriendId(String friendId)
+    {
+        prefs.edit().putString("friend_id", friendId).apply();
+    }
+
     public void logout()
     {
         prefs.edit().remove("user_id").apply();

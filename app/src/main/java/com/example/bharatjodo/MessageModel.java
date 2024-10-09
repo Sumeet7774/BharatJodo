@@ -5,14 +5,12 @@ public class MessageModel {
     private String senderId;
     private String receiverId;
     private String messageContent;
-    private String messageType;
 
-    public MessageModel(String messageId, String senderId, String receiverId, String messageContent, String messageType) {
+    public MessageModel(String messageId, String senderId, String receiverId, String messageContent) {
         this.messageId = messageId;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.messageContent = messageContent;
-        this.messageType = messageType;
     }
 
     public String getMessageId() {
@@ -45,13 +43,5 @@ public class MessageModel {
 
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
-    }
-
-    public String getMessageType() {
-        return messageType;
-    }
-
-    public void setMessageType(String messageType) {
-        this.messageType = messageType;
     }
 }

@@ -97,10 +97,11 @@ public class FriendsFragment extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject friendObject = jsonArray.getJSONObject(i);
                                     String friendshipId = friendObject.getString("friendship_id");
+                                    String friendId = friendObject.getString("friend_id");
                                     String username = friendObject.getString("username");
                                     String phoneNumber = friendObject.getString("phone_number");
 
-                                    friendList.add(new FriendsModel(friendshipId,username, phoneNumber));
+                                    friendList.add(new FriendsModel(friendshipId,friendId,username, phoneNumber));
                                 }
 
                                 friendsAdapter.notifyDataSetChanged();

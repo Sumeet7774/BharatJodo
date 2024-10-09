@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "422254455388",
-    "project_id": "bharatjodobackend",
-    "storage_bucket": "bharatjodobackend.appspot.com"
+    "project_number": "152499038975",
+    "project_id": "bharatjodo-3ec01",
+    "storage_bucket": "bharatjodo-3ec01.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:422254455388:android:13ae9104f5a57909a85499",
+        "mobilesdk_app_id": "1:152499038975:android:6a63b528b073cea6e7baca",
         "android_client_info": {
           "package_name": "com.example.bharatjodo"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDEIkUIy5sQr8WiY9qBzA74H2dEORdrZa4"
+          "current_key": "AIzaSyA20RHk-GfhqheT91Ea6cEiMsu1rlqdBlo"
         }
       ],
       "services": {

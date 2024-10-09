@@ -73,5 +73,9 @@
     <string name="add_friend_two">Add Friend</string>
     <string name="pending_friend_requests_text">Pending Friend Requests</string>
     <string name="no_pending_friend_requests_found">No Pending Friend Requests Found</string>
+    <string name="write_message_here">Write message here</string>
+    <string name="sender_message_here">Sender message here</string>
+    <string name="receiver_response_here">Receiver response here</string>
 
+    <string name="write_your_message">Write your message</string>
 </resources>

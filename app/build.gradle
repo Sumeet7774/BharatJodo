@@ -40,18 +40,21 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
-    implementation libs.firebase.firestore
+    implementation libs.firebase.auth
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
     implementation libs.sdp.android
     implementation libs.lottie.v640
-    implementation libs.play.services.auth
     implementation libs.motiontoast
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
+
     implementation libs.core.ktx
     implementation libs.volley
     implementation libs.shimmer
+
+    implementation platform(libs.firebase.bom.v3340)
+    implementation libs.google.firebase.analytics
+
+
 }
