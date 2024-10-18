@@ -1,7 +1,8 @@
 package com.example.bharatjodo;
 
 public class ApiEndpoints {
-    private static final String base_url = "https://c0c4-2405-201-201f-609b-6199-2913-4f97-219.ngrok-free.app/BharatJodoApi/";
+    private static final String base_url = "https://6970-2405-201-201f-609b-543e-91f8-d06d-7588.ngrok-free.app/BharatJodoApi/";
+    public static final String websocketServer_url = "ws://192.168.29.109:3000";
     public static final String register_url = base_url + "register.php";
     public static final String login_url = base_url + "login.php";
     public static final String getUserid_url = base_url + "get_user_id.php";

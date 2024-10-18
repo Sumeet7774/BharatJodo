@@ -28,9 +28,20 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
 
 public class ChatUser extends AppCompatActivity {
 
@@ -45,6 +56,8 @@ public class ChatUser extends AppCompatActivity {
     private String receiverId;
     private static final int REQUEST_CODE_SPEECH_INPUT = 100;
     private static final int REQUEST_MIC_PERMISSION = 200;
+    private WebSocket webSocket;
+    private OkHttpClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +81,8 @@ public class ChatUser extends AppCompatActivity {
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
 
         retrieveReceiverUsername(receiverId);
+
+        client = new OkHttpClient();
 
         backButton_chatpage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +108,8 @@ public class ChatUser extends AppCompatActivity {
                 Toast.makeText(ChatUser.this, "Enter a message", Toast.LENGTH_SHORT).show();
             }
         });
+
+        connectWebSocket();
     }
 
     private boolean checkMicPermission() {
@@ -145,15 +162,13 @@ public class ChatUser extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    // Check if the response contains a JSON object
                     int jsonStartIndex = response.indexOf("{");
                     if (jsonStartIndex != -1) {
-                        response = response.substring(jsonStartIndex);  // Remove any content before the JSON
+                        response = response.substring(jsonStartIndex);
                     } else {
                         throw new JSONException("Invalid response, no JSON found");
                     }
 
-                    // Parse the actual JSON response
                     JSONObject jsonObject = new JSONObject(response);
                     Log.d("RetrievedUsernameResponse", "Retrieved Username: " + jsonObject.toString());
 
@@ -187,58 +202,70 @@ public class ChatUser extends AppCompatActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
-
-
-    private void sendMessage(final String messageContent) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiEndpoints.sendMessage_url, new Response.Listener<String>() {
+    private void connectWebSocket() {
+        okhttp3.Request request = new okhttp3.Request.Builder().url(ApiEndpoints.websocketServer_url).build();
+        webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    // Check if the response contains a JSON object
-                    int jsonStartIndex = response.indexOf("{");
-                    if (jsonStartIndex != -1) {
-                        response = response.substring(jsonStartIndex);  // Remove any content before the JSON
-                    } else {
-                        throw new JSONException("Invalid response, no JSON found");
-                    }
-
-                    // Parse the actual JSON response
-                    JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("status").equals("success")) {
-                        addMessageToChat(messageContent, true);
-                    } else {
-                        Toast.makeText(ChatUser.this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(ChatUser.this, "Error parsing response: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
+                Log.d("WebSocket", "Connection opened");
+                Log.i("WebSocket", "Successfully connected to WebSocket server at: " + ApiEndpoints.websocketServer_url);
             }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ChatUser.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
+
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("sender_id", senderId);
-                params.put("receiver_id", receiverId);
-                params.put("message_content", messageContent);
-                return params;
+            public void onMessage(WebSocket webSocket, String text) {
+                runOnUiThread(() -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(text);
+                        String incomingMessage = jsonObject.getString("message_content");
+                        addMessageToChat(incomingMessage, false); // Received message
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
-        };
 
-        VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
+            @Override
+            public void onMessage(WebSocket webSocket, ByteString bytes) {
+                // Handle binary messages if needed
+            }
+
+            @Override
+            public void onFailure(WebSocket webSocket, Throwable t, @Nullable okhttp3.Response response) {
+                Log.e("WebSocket", "Error: " + t.getMessage());
+            }
+        });
     }
 
+    private void sendMessage(final String messageContent) {
+        if (webSocket != null) {
+            try {
+                JSONObject jsonMessage = new JSONObject();
+                jsonMessage.put("sender_id", senderId);
+                jsonMessage.put("receiver_id", receiverId);
+                jsonMessage.put("message_content", messageContent);
 
+                // Send message
+                webSocket.send(jsonMessage.toString());
+                addMessageToChat(messageContent, true);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.e("WebSocket", "WebSocket not initialized.");
+            Toast.makeText(this, "Unable to send message. WebSocket not initialized.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-    private void addMessageToChat(String message, boolean isSender) {
-        ChatMessageModel chatMessage = new ChatMessageModel(message, isSender);
-        chatMessageAdaptor.addMessage(chatMessage);
+    private void addMessageToChat(String messageContent, boolean isSentByMe) {
+        chatMessageAdaptor.addMessage(new ChatMessageModel(messageContent, isSentByMe));
         recyclerViewChat.scrollToPosition(chatMessageAdaptor.getItemCount() - 1);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webSocket != null) {
+            webSocket.close(1000, "Closing connection");
+        }
     }
 }

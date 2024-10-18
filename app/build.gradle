@@ -56,5 +56,9 @@ dependencies {
     implementation platform(libs.firebase.bom.v3340)
     implementation libs.google.firebase.analytics
 
+    implementation libs.java.websocket
+    implementation(libs.okhttp)
+
+
 
 }
